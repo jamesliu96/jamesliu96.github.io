@@ -1,4 +1,6 @@
-jamesliu96.github.io
+GitHub Page
 ====================
 
-GitHub Pages
+Hi, I am James Liu.
+This is the repository for my GitHub Page at http://g.jamesliu.info/
+Feel free to visit it.
