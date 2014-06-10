@@ -9,11 +9,11 @@ body {
 }
 
 ::selection {
-  background-color: #ee22ee;
+  background-color: #ffc0cb;
 }
 
 ::-moz-selection {
-  background-color: #ee22ee;
+  background-color: #ffc0cb;
 }
 
 .container {
