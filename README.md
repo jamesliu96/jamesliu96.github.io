@@ -3,16 +3,16 @@ GitHub Page
 
 Hi, I am James Liu.
 
-This is the repository for my GitHub Page at http://g.jamesliu.info/
+This is the repository for my GitHub Page at http://jamesliu.info/
 
 Feel free to visit it.
 
 License
 ------
 
-[The MIT License](http://james.mit-license.org/) (MIT)
+The MIT License (MIT)
 
-Copyright (c) 2014 James Liu
+Copyright (c) 2014 James Liu <j@jamesliu.info>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
