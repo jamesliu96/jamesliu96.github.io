@@ -6,7 +6,7 @@
     body {
       background: #0200cd;
       color: #fff;
-      font-family: monospace, Courier, sans-serif;
+      font-family: monospace;
       text-align: center;
     }
     h1, h2{
@@ -20,51 +20,9 @@
       font-size: 24px;
     }
     pre{
-      font: 20px monospace, Courier, sans-serif;
+      font: 20px monospace;
       word-wrap: break-word;
       word-break: normal;
-    }
-    @-moz-keyframes cursor-blink {
-      1% {
-        opacity: 0;
-      }
-      40% {
-        opacity: 0;
-      }
-      60% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
-    @-webkit-keyframes cursor-blink {
-      1% {
-        opacity: 0;
-      }
-      40% {
-        opacity: 0;
-      }
-      60% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
-    @-o-keyframes cursor-blink {
-      1% {
-        opacity: 0;
-      }
-      40% {
-        opacity: 0;
-      }
-      60% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 1;
-      }
     }
     @keyframes cursor-blink {
       1% {
@@ -85,16 +43,12 @@
       -webkit-animation: cursor-blink 0.8s linear infinite;
       -moz-animation: cursor-blink 0.8s linear infinite;
       -o-animation: cursor-blink 0.8s linear infinite;
-      font: 20px monospace, Courier, sans-serif;
+      font: 20px monospace;
     }
     </style>
-    <script type="text/javascript">
-    function home(){
-      window.location.href = window.location.protocol + "//" + window.location.host;
-    }
-    </script>
+    <script type="text/javascript">function home() { window.location.href = '/'; }</script>
   </head>
-  <body onkeydown="home()">
+  <body onclick="home()" onkeydown="home()">
     <h1>ERROR 404</h1>
     <h2>Page Not Found</h2>
     <pre>
@@ -104,7 +58,7 @@ The current browse session will be terminated.
 ##############################
 #                            #
 #         James Liu          #
-#     Copyright (C) 2015     #
+#     Copyright (C) 2018     #
 #                            #
 ##############################
 
