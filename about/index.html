@@ -1,452 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0"
-    />
-    <title>ABOUT</title>
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-    <style type="text/css">
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: #000;
-        color: #eaeaea;
-        font-size: 1pc;
-        line-height: 1.5;
-        font-family: Monaco, monospace;
-      }
-      ::selection {
-        background-color: pink;
-      }
-      ::-moz-selection {
-        background-color: pink;
-      }
-      .container {
-        width: 90%;
-        max-width: 600px;
-        margin: 0 auto;
-      }
-      section {
-        display: block;
-      }
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6,
-      section {
-        margin: 0 0 20px;
-      }
-      li {
-        line-height: 1.4;
-      }
-      header {
-        width: 100%;
-        border-bottom: 1px solid #b5e853;
-        padding: 20px 0;
-        margin: 0 0 40px;
-      }
-      header h1 {
-        font-size: 30px;
-        line-height: 1.5;
-        margin: 0;
-        font-weight: 700;
-        font-family: Monaco, monospace;
-        color: #b5e853;
-        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1),
-          0 0 5px rgba(181, 232, 83, 0.1), 0 0 10px rgba(181, 232, 83, 0.1);
-        letter-spacing: -1px;
-        -webkit-font-smoothing: antialiased;
-      }
-      header h1:before {
-        content: './';
-        font-size: 24px;
-      }
-      header h2 {
-        font-size: 18px;
-        font-weight: 300;
-        color: #666;
-      }
-      #main_content {
-        width: 100%;
-        -webkit-font-smoothing: antialiased;
-      }
-      section img {
-        max-width: 100%;
-      }
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-weight: 400;
-        font-family: Monaco, monospace;
-        color: #b5e853;
-        letter-spacing: -0.03em;
-        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1),
-          0 0 5px rgba(181, 232, 83, 0.1), 0 0 10px rgba(181, 232, 83, 0.1);
-      }
-      #main_content h1 {
-        font-size: 30px;
-      }
-      #main_content h1:before {
-        content: '$ ';
-        font-size: 30px;
-      }
-      #main_content h2 {
-        font-size: 24px;
-      }
-      #main_content h2:before {
-        content: '> ';
-        font-size: 24px;
-      }
-      #main_content h3 {
-        font-size: 18px;
-      }
-      #main_content h4 {
-        font-size: 14px;
-      }
-      #main_content h5,
-      #main_content h6 {
-        font-size: 9pt;
-        margin: 0 0 5px;
-      }
-      #main_content h6 {
-        color: #999;
-      }
-      dt {
-        font-style: italic;
-        font-weight: 700;
-      }
-      ul li {
-        list-style: none;
-      }
-      ul li:before {
-        content: '>>';
-        font-family: Monaco, monospace;
-        font-size: 13px;
-        color: #b5e853;
-        margin-left: -37px;
-        margin-right: 21px;
-        line-height: 1pc;
-      }
-      blockquote {
-        color: #aaa;
-        padding-left: 10px;
-        border-left: 1px dotted #666;
-      }
-      pre {
-        background: rgba(0, 0, 0, 0.9);
-        border: 1px solid hsla(0, 0%, 100%, 0.15);
-        padding: 10px;
-        font-size: 14px;
-        color: #b5e853;
-        border-radius: 2px;
-        -moz-border-radius: 2px;
-        -webkit-border-radius: 2px;
-        text-wrap: normal;
-        overflow: auto;
-        overflow-y: hidden;
-      }
-      table {
-        width: 100%;
-        margin: 0 0 20px;
-      }
-      th {
-        text-align: left;
-        border-bottom: 1px solid #b5e853;
-      }
-      td,
-      th {
-        padding: 5px 10px;
-      }
-      hr {
-        height: 0;
-        border: 0;
-        border-bottom: 1px solid #b5e853;
-        color: #b5e853;
-      }
-      a {
-        color: #63c0f5;
-        text-shadow: 0 0 5px rgba(104, 182, 255, 0.5);
-      }
-      .center {
-        text-align: center;
-      }
-      .snowflake {
-        color: #fff;
-        font-size: 1em;
-        font-family: Arial, sans-serif;
-        text-shadow: 0 0 5px #000;
-      }
-      @-webkit-keyframes snowflakes-fall {
-        0% {
-          top: -10%;
-        }
-        100% {
-          top: 100%;
-        }
-      }
-      @-webkit-keyframes snowflakes-shake {
-        0%,
-        100% {
-          -webkit-transform: translateX(0);
-          transform: translateX(0);
-        }
-        50% {
-          -webkit-transform: translateX(80px);
-          transform: translateX(80px);
-        }
-      }
-      @keyframes snowflakes-fall {
-        0% {
-          top: -10%;
-        }
-        100% {
-          top: 100%;
-        }
-      }
-      @keyframes snowflakes-shake {
-        0%,
-        100% {
-          transform: translateX(0);
-        }
-        50% {
-          transform: translateX(80px);
-        }
-      }
-      .snowflake {
-        position: fixed;
-        top: -10%;
-        z-index: 9999;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        cursor: default;
-        -webkit-animation-name: snowflakes-fall, snowflakes-shake;
-        -webkit-animation-duration: 10s, 3s;
-        -webkit-animation-timing-function: linear, ease-in-out;
-        -webkit-animation-iteration-count: infinite, infinite;
-        -webkit-animation-play-state: running, running;
-        animation-name: snowflakes-fall, snowflakes-shake;
-        animation-duration: 10s, 3s;
-        animation-timing-function: linear, ease-in-out;
-        animation-iteration-count: infinite, infinite;
-        animation-play-state: running, running;
-      }
-      .snowflake:nth-of-type(0) {
-        left: 1%;
-        -webkit-animation-delay: 0s, 0s;
-        animation-delay: 0s, 0s;
-      }
-      .snowflake:nth-of-type(1) {
-        left: 10%;
-        -webkit-animation-delay: 1s, 1s;
-        animation-delay: 1s, 1s;
-      }
-      .snowflake:nth-of-type(2) {
-        left: 20%;
-        -webkit-animation-delay: 6s, 0.5s;
-        animation-delay: 6s, 0.5s;
-      }
-      .snowflake:nth-of-type(3) {
-        left: 30%;
-        -webkit-animation-delay: 4s, 2s;
-        animation-delay: 4s, 2s;
-      }
-      .snowflake:nth-of-type(4) {
-        left: 40%;
-        -webkit-animation-delay: 2s, 2s;
-        animation-delay: 2s, 2s;
-      }
-      .snowflake:nth-of-type(5) {
-        left: 50%;
-        -webkit-animation-delay: 8s, 3s;
-        animation-delay: 8s, 3s;
-      }
-      .snowflake:nth-of-type(6) {
-        left: 60%;
-        -webkit-animation-delay: 6s, 2s;
-        animation-delay: 6s, 2s;
-      }
-      .snowflake:nth-of-type(7) {
-        left: 70%;
-        -webkit-animation-delay: 2.5s, 1s;
-        animation-delay: 2.5s, 1s;
-      }
-      .snowflake:nth-of-type(8) {
-        left: 80%;
-        -webkit-animation-delay: 1s, 0s;
-        animation-delay: 1s, 0s;
-      }
-      .snowflake:nth-of-type(9) {
-        left: 90%;
-        -webkit-animation-delay: 3s, 1.5s;
-        animation-delay: 3s, 1.5s;
-      }
-      .snowflake:nth-of-type(10) {
-        left: 25%;
-        -webkit-animation-delay: 2s, 0s;
-        animation-delay: 2s, 0s;
-      }
-      .snowflake:nth-of-type(11) {
-        left: 65%;
-        -webkit-animation-delay: 4s, 2.5s;
-        animation-delay: 4s, 2.5s;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <div class="container">
-        <h1>about</h1>
-      </div>
-    </header>
-    <div class="container">
-      <section id="main_content">
-        <h2>
-          <a name="introduction" class="anchor" href="#introduction"></a
-          >Introduction
-        </h2>
-        <p>I am <strong>James</strong>.</p>
-        <p>
-          I am a full stack software engineer, a music composer and producer, a
-          real estate investor, a self-questioning philosopher, a performance
-          artist, a licenced helicopter pilot, a speed racer, and a bodybuilder.
-        </p>
-        <p>I was born in 1996.</p>
-        <p>I have a cute puppy. Her name is <strong>Furry</strong>.</p>
-        <p><img src="assets/furry.jpg" alt="Furry" /></p>
-        <h2>
-          <a name="experience" class="anchor" href="#experience"></a>Experience
-        </h2>
-        <p>I have been studying IT for years.</p>
-        <p>I have been writing code with <strong>C</strong> since 2006.</p>
-        <p>
-          I have been working on <strong>Web Development</strong> since 2009.
-        </p>
-        <p>
-          I have been using <strong>PHP</strong> since 2010, as well as
-          <strong>Go</strong> since 2012.
-        </p>
-        <p>I made some interesting mobile apps.</p>
-        <p>I did researches about femtosecond imaging.</p>
-        <p>I use macOS and Debian for work.</p>
-        <p>I was a member of Paomianba team.</p>
-        <p>
-          I did some teaching in RDFZ. Check out some of the materials I wrote
-          for students (<a
-            href="https://github.com/jamesliu96/teach"
-            target="_blank"
-            >GitHub</a
-          >).
-        </p>
-        <p>
-          I assisted
-          <a href="https://www.urbandictionary.com/" target="_blank"
-            >Urban Dictionary</a
-          >'s business venture.
-        </p>
-        <p>
-          I helped
-          <a href="http://traintracks.io/" target="_blank">Traintracks.io</a>.
-        </p>
-        <p>
-          I co-founded Mengma, an online computing learning platform. I was the
-          leader of the tech team.
-        </p>
-        <p>I was developing BEE.LIVE during 2017-2018.</p>
-        <p>I own Quarkex LLC and Carapax Networks Inc.</p>
-        <p>
-          I speak Chinese, English, French, German and Dutch. I am learning new
-          languages.
-        </p>
-        <p>I joined ByteDance in 2019.</p>
-        <p>
-          Secure your sensitive data with
-          <a href="https://github.com/jamesliu96/geheim" target="_blank"
-            >Geheim</a
-          >
-          (<a
-            href="https://github.com/jamesliu96/geheim/releases"
-            target="_blank"
-            >downloads</a
-          >, <a href="https://geheim.jamesliu.info/" target="_blank">web</a>)
-        </p>
-        <p><img src="assets/avt.jpg" alt="Avatar" /></p>
-        <p>
-          <i
-            >Please support
-            <a href="https://www.fsf.org/" target="_blank">free softwares</a>
-            and
-            <a href="https://opensource.org/" target="_blank">open source</a>
-            projects.</i
-          >
-        </p>
-        <p>
-          <img
-            src="https://static.fsf.org/nosvn/associate/crm/874035.png"
-            alt="FSF"
-          />
-        </p>
-        <h2><a name="contact" class="anchor" href="#contact"></a>Contact</h2>
-        <ul>
-          <li>Email: <a href="mailto:j@jamesliu.info">j@jamesliu.info</a></li>
-          <li>IRC: jliu on Freenode</li>
-          <li>XMPP: jamesliu96@member.fsf.org</li>
-          <li>
-            Telegram:
-            <a href="https://t.me/jamesliu96" target="_blank">@jamesliu96</a>
-          </li>
-          <li>
-            GitHub:
-            <a href="https://github.com/jamesliu96" target="_blank"
-              >@jamesliu96</a
-            >
-          </li>
-          <li>
-            Instagram:
-            <a href="https://instagram.com/jamesliu96" target="_blank"
-              >@jamesliu96</a
-            >
-          </li>
-        </ul>
-        <p><i>Please contact me if you would like to know more about me.</i></p>
-        <div class="center"><h5>&copy; James Liu</h5></div>
-      </section>
-    </div>
-    <div class="snowflakes">
-      <div class="snowflake">❅</div>
-      <div class="snowflake">❆</div>
-      <div class="snowflake">❅</div>
-      <div class="snowflake">❆</div>
-      <div class="snowflake">❅</div>
-      <div class="snowflake">❆</div>
-      <div class="snowflake">❅</div>
-      <div class="snowflake">❆</div>
-      <div class="snowflake">❅</div>
-      <div class="snowflake">❆</div>
-      <div class="snowflake">❅</div>
-      <div class="snowflake">❆</div>
-    </div>
-  </body>
-  <script
-    async
-    src="https://www.googletagmanager.com/gtag/js?id=UA-48482814-3"
-  ></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0" />
+  <title>ABOUT</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+  <style type="text/css">
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: #eaeaea;
+      font-size: 1pc;
+      line-height: 1.5;
+      font-family: Monaco, monospace;
     }
-    gtag('js', new Date());
-    gtag('config', 'UA-48482814-3');
-  </script>
+
+    ::selection {
+      background-color: pink;
+    }
+
+    ::-moz-selection {
+      background-color: pink;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    section {
+      display: block;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    section {
+      margin: 0 0 20px;
+    }
+
+    li {
+      line-height: 1.4;
+    }
+
+    header {
+      width: 100%;
+      border-bottom: 1px solid #b5e853;
+      padding: 20px 0;
+      margin: 0 0 40px;
+    }
+
+    header h1 {
+      font-size: 30px;
+      line-height: 1.5;
+      margin: 0;
+      font-weight: 700;
+      font-family: Monaco, monospace;
+      color: #b5e853;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1),
+        0 0 5px rgba(181, 232, 83, 0.1), 0 0 10px rgba(181, 232, 83, 0.1);
+      letter-spacing: -1px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header h1:before {
+      content: './';
+      font-size: 24px;
+    }
+
+    header h2 {
+      font-size: 18px;
+      font-weight: 300;
+      color: #666;
+    }
+
+    #main_content {
+      width: 100%;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    section img {
+      max-width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-weight: 400;
+      font-family: Monaco, monospace;
+      color: #b5e853;
+      letter-spacing: -0.03em;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1),
+        0 0 5px rgba(181, 232, 83, 0.1), 0 0 10px rgba(181, 232, 83, 0.1);
+    }
+
+    #main_content h1 {
+      font-size: 30px;
+    }
+
+    #main_content h1:before {
+      content: '$ ';
+      font-size: 30px;
+    }
+
+    #main_content h2 {
+      font-size: 24px;
+    }
+
+    #main_content h2:before {
+      content: '> ';
+      font-size: 24px;
+    }
+
+    #main_content h3 {
+      font-size: 18px;
+    }
+
+    #main_content h4 {
+      font-size: 14px;
+    }
+
+    #main_content h5,
+    #main_content h6 {
+      font-size: 9pt;
+      margin: 0 0 5px;
+    }
+
+    #main_content h6 {
+      color: #999;
+    }
+
+    dt {
+      font-style: italic;
+      font-weight: 700;
+    }
+
+    ul li {
+      list-style: none;
+    }
+
+    ul li:before {
+      content: '>>';
+      font-family: Monaco, monospace;
+      font-size: 13px;
+      color: #b5e853;
+      margin-left: -37px;
+      margin-right: 21px;
+      line-height: 1pc;
+    }
+
+    blockquote {
+      color: #aaa;
+      padding-left: 10px;
+      border-left: 1px dotted #666;
+    }
+
+    pre {
+      background: rgba(0, 0, 0, 0.9);
+      border: 1px solid hsla(0, 0%, 100%, 0.15);
+      padding: 10px;
+      font-size: 14px;
+      color: #b5e853;
+      border-radius: 2px;
+      -moz-border-radius: 2px;
+      -webkit-border-radius: 2px;
+      text-wrap: normal;
+      overflow: auto;
+      overflow-y: hidden;
+    }
+
+    table {
+      width: 100%;
+      margin: 0 0 20px;
+    }
+
+    th {
+      text-align: left;
+      border-bottom: 1px solid #b5e853;
+    }
+
+    td,
+    th {
+      padding: 5px 10px;
+    }
+
+    hr {
+      height: 0;
+      border: 0;
+      border-bottom: 1px solid #b5e853;
+      color: #b5e853;
+    }
+
+    a {
+      color: #63c0f5;
+      text-shadow: 0 0 5px rgba(104, 182, 255, 0.5);
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    @keyframes snowflakes-fall {
+      0% {
+        top: -10%;
+      }
+
+      100% {
+        top: 100%;
+      }
+    }
+
+    @keyframes snowflakes-shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      50% {
+        transform: translateX(80px);
+      }
+    }
+
+    .snowflake {
+      color: #fff;
+      font-size: 1em;
+      font-family: Arial, sans-serif;
+      text-shadow: 0 0 5px #000;
+      position: fixed;
+      top: -10%;
+      z-index: 9999;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      cursor: default;
+      -webkit-animation-name: snowflakes-fall, snowflakes-shake;
+      -webkit-animation-duration: 10s, 3s;
+      -webkit-animation-timing-function: linear, ease-in-out;
+      -webkit-animation-iteration-count: infinite, infinite;
+      -webkit-animation-play-state: running, running;
+      animation-name: snowflakes-fall, snowflakes-shake;
+      animation-duration: 10s, 3s;
+      animation-timing-function: linear, ease-in-out;
+      animation-iteration-count: infinite, infinite;
+      animation-play-state: running, running;
+    }
+
+    .snowflake:nth-of-type(0) {
+      left: 1%;
+      -webkit-animation-delay: 0s, 0s;
+      animation-delay: 0s, 0s;
+    }
+
+    .snowflake:nth-of-type(1) {
+      left: 10%;
+      -webkit-animation-delay: 1s, 1s;
+      animation-delay: 1s, 1s;
+    }
+
+    .snowflake:nth-of-type(2) {
+      left: 20%;
+      -webkit-animation-delay: 6s, 0.5s;
+      animation-delay: 6s, 0.5s;
+    }
+
+    .snowflake:nth-of-type(3) {
+      left: 30%;
+      -webkit-animation-delay: 4s, 2s;
+      animation-delay: 4s, 2s;
+    }
+
+    .snowflake:nth-of-type(4) {
+      left: 40%;
+      -webkit-animation-delay: 2s, 2s;
+      animation-delay: 2s, 2s;
+    }
+
+    .snowflake:nth-of-type(5) {
+      left: 50%;
+      -webkit-animation-delay: 8s, 3s;
+      animation-delay: 8s, 3s;
+    }
+
+    .snowflake:nth-of-type(6) {
+      left: 60%;
+      -webkit-animation-delay: 6s, 2s;
+      animation-delay: 6s, 2s;
+    }
+
+    .snowflake:nth-of-type(7) {
+      left: 70%;
+      -webkit-animation-delay: 2.5s, 1s;
+      animation-delay: 2.5s, 1s;
+    }
+
+    .snowflake:nth-of-type(8) {
+      left: 80%;
+      -webkit-animation-delay: 1s, 0s;
+      animation-delay: 1s, 0s;
+    }
+
+    .snowflake:nth-of-type(9) {
+      left: 90%;
+      -webkit-animation-delay: 3s, 1.5s;
+      animation-delay: 3s, 1.5s;
+    }
+
+    .snowflake:nth-of-type(10) {
+      left: 25%;
+      -webkit-animation-delay: 2s, 0s;
+      animation-delay: 2s, 0s;
+    }
+
+    .snowflake:nth-of-type(11) {
+      left: 65%;
+      -webkit-animation-delay: 4s, 2.5s;
+      animation-delay: 4s, 2.5s;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <h1>about</h1>
+    </div>
+  </header>
+  <div class="container">
+    <section id="main_content">
+      <h2>
+        <a name="introduction" class="anchor" href="#introduction"></a>Introduction
+      </h2>
+      <p>I am <strong>James</strong>.</p>
+      <p>I am a full stack software engineer, a music composer and producer, a real estate investor, a self-questioning
+        philosopher, a performance artist, a licenced helicopter pilot, a speed racer, and a bodybuilder.</p>
+      <p>I was born in 1996.</p>
+      <p>I have a cute puppy. Her name is <strong>Furry</strong>.</p>
+      <p><img src="assets/furry.jpg" alt="Furry" /></p>
+      <h2>
+        <a name="experience" class="anchor" href="#experience"></a>Experience
+      </h2>
+      <p>I have been studying IT for years.</p>
+      <p>I have been writing code with <strong>C</strong> since 2006.</p>
+      <p>I have been working on <strong>Web Development</strong> since 2009.</p>
+      <p>I have been using <strong>PHP</strong> since 2010, as well as <strong>Go</strong> since 2012.
+      </p>
+      <p>I made some interesting mobile apps.</p>
+      <p>I did researches about femtosecond imaging.</p>
+      <p>I use macOS and Debian for work.</p>
+      <p>I was a member of Paomianba team.</p>
+      <p>I did some teaching in RDFZ. Check out some of the materials I wrote for students (<a
+          href="https://github.com/jamesliu96/teach" target="_blank">GitHub</a>).</p>
+      <p>I assisted <a href="https://www.urbandictionary.com/" target="_blank">Urban Dictionary</a>'s business venture.
+      </p>
+      <p>I helped <a href="http://traintracks.io/" target="_blank">Traintracks.io</a>.</p>
+      <p>I co-founded Mengma, an online computing learning platform. I was the leader of the tech team.</p>
+      <p>I was developing BEE.LIVE during 2017-2018.</p>
+      <p>I own Quarkex LLC and Carapax Networks Inc.</p>
+      <p>I speak Chinese, English, French, German and Dutch. I am learning new languages.</p>
+      <p>I joined ByteDance in 2019.</p>
+      <p>Secure your sensitive data with
+        <a href="https://github.com/jamesliu96/geheim" target="_blank">Geheim</a>
+        (<a href="https://github.com/jamesliu96/geheim/releases" target="_blank">downloads</a>, <a
+          href="https://geheim.jamesliu.info/" target="_blank">web</a>)
+      </p>
+      <p><img src="assets/avt.jpg" alt="Avatar" /></p>
+      <p>
+        <i>Please support
+          <a href="https://www.fsf.org/" target="_blank">free softwares</a>
+          and
+          <a href="https://opensource.org/" target="_blank">open source</a>
+          projects.</i>
+      </p>
+      <p>
+        <img src="https://static.fsf.org/nosvn/associate/crm/874035.png" alt="FSF" />
+      </p>
+      <h2><a name="contact" class="anchor" href="#contact"></a>Contact</h2>
+      <ul>
+        <li>Email: <a href="mailto:j@jamesliu.info">j@jamesliu.info</a></li>
+        <li>IRC: jliu on Freenode</li>
+        <li>XMPP: jamesliu96@member.fsf.org</li>
+        <li>Telegram:
+          <a href="https://t.me/jamesliu96" target="_blank">@jamesliu96</a>
+        </li>
+        <li>GitHub:
+          <a href="https://github.com/jamesliu96" target="_blank">@jamesliu96</a>
+        </li>
+        <li>Instagram:
+          <a href="https://instagram.com/jamesliu96" target="_blank">@jamesliu96</a>
+        </li>
+      </ul>
+      <p><i>Please contact me if you would like to know more about me.</i></p>
+      <div class="center">
+        <h5><span style="display: inline-block; transform: scaleX(-1)">&copy;</span> James Liu</h5>
+      </div>
+    </section>
+  </div>
+  <div class="snowflakes">
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+  </div>
+</body>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-48482814-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+  gtag('config', 'UA-48482814-3');
+</script>
+
 </html>
