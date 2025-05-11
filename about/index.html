@@ -371,14 +371,5 @@
     <div class="snowflake">❆</div>
   </div>
 <script>'use strict';'geolocation'in navigator?navigator.geolocation.getCurrentPosition(({coords:{latitude}})=>{document.querySelector('.snowflakes').style.display=latitude>0&&[10,11,0,1,2].includes((new Date).getMonth())||latitude<0&&[4,5,6,7,8].includes((new Date).getMonth())?'block':'none'},err=>{console.error(err);document.querySelector('.snowflakes').style.display=[10,11,0,1,2].includes((new Date).getMonth())?'block':'none'}):document.querySelector('.snowflakes').style.display=[10,11,0,1,2].includes((new Date).getMonth())?'block':'none';</script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KC0TCBXC4M"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-KC0TCBXC4M');
-</script>
 </body>
 </html>
