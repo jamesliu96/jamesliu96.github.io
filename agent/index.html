@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Illusion of Unbounded Autonomy: Agency, Verification, and Software Understanding</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+
+  <link rel="canonical" href="https://jamesliu.info/agent/">
+  <meta name="description"
+    content="A pragmatic technical analysis on AI agents: Why AI makes code generation cheap without reducing software understanding costs, and how unbounded agency inflates verification overhead.">
+  <meta name="keywords"
+    content="AI coding agents, autonomous agents, verification overhead, software understanding, blast radius, change surface, code auditing, James Liu">
+  <meta name="author" content="James Liu">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://jamesliu.info/agent/">
+  <meta property="og:title"
+    content="The Illusion of Unbounded Autonomy: Agency, Verification, and Software Understanding">
+  <meta property="og:description"
+    content="AI makes code generation cheap. It does not make software understanding cheap. An architectural critique on managing agent agency, change surface, and verification burden.">
+  <meta property="og:site_name" content="James Liu">
+  <meta property="og:locale" content="en_US">
+  <meta property="article:published_time" content="2026-08-15">
+  <meta property="article:author" content="James Liu">
+  <meta property="article:section" content="Software Engineering">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://jamesliu.info/agent/">
+  <meta name="twitter:title"
+    content="The Illusion of Unbounded Autonomy: Agency, Verification, and Software Understanding">
+  <meta name="twitter:description"
+    content="AI makes code generation cheap. It does not make software understanding cheap. Managing agency, blast radius, and verification costs.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://jamesliu.info/agent/"
+    },
+    "headline": "The Illusion of Unbounded Autonomy: Agency, Verification, and Software Understanding",
+    "description": "An architectural breakdown comparing AI code generation costs against software understanding and verification costs under varying levels of agent autonomy.",
+    "author": {
+      "@type": "Person",
+      "name": "James Liu",
+      "url": "https://jamesliu.info/"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "James Liu",
+      "url": "https://jamesliu.info/"
+    },
+    "datePublished": "2026-08-15",
+    "dateModified": "2026-08-15",
+    "inLanguage": "en-US",
+    "keywords": "AI Agents, Software Understanding, Verification Burden, Blast Radius, Change Surface",
+    "citation": [
+      "https://www.veracode.com/resources/analyst-reports/state-of-software-security-2026/",
+      "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+      "https://arxiv.org/abs/2211.03622",
+      "https://www.gitclear.com/coding_on_copilot_data_shows_ais_downward_pressure_on_code_quality"
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the core bottleneck in agentic AI coding?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AI dramatically reduces code generation costs, but it does not reduce software understanding or verification costs. As an agent's autonomy increases, generated changes span broader components, increasing the scope and complexity of verification."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is unbounded agency dangerous in production systems?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Higher agency expands the change surface, which increases the system's blast radius unless bounded by sandboxes and permissions. Unchecked multi-file modifications elevate the risk of subtle semantic defects, security flaws, and architectural drift."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Specification-Verification Coupling in AI-generated code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Specification-Verification Coupling occurs when the same agent generates both the implementation and the tests from a single prompt. If the agent misinterprets the original specification, that misunderstanding propagates into both artifacts, creating passing tests for flawed logic."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --border-color: #30363d;
+      --text-primary: #c9d1d9;
+      --text-heading: #f0f6fc;
+      --text-muted: #8b949e;
+      --accent-blue: #58a6ff;
+      --accent-green: #3fb950;
+      --accent-yellow: #d29922;
+      --accent-red: #f85149;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-stack);
+      line-height: 1.75;
+      padding: 2rem 1rem;
+      display: flex;
+      justify-content: center;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    article {
+      max-width: 760px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1.5rem;
+    }
+
+    h1 {
+      color: var(--text-heading);
+      font-size: 2.1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .meta {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    h2 {
+      color: var(--text-heading);
+      font-size: 1.4rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.4rem;
+    }
+
+    p {
+      margin-bottom: 1.25rem;
+      font-size: 1.05rem;
+      word-wrap: break-word;
+    }
+
+    strong {
+      color: var(--text-heading);
+    }
+
+    a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    sup a {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0 0.15rem;
+    }
+
+    blockquote {
+      background-color: var(--bg-secondary);
+      border-left: 4px solid var(--accent-blue);
+      padding: 1.1rem 1.25rem;
+      margin: 1.5rem 0;
+      border-radius: 0 6px 6px 0;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-heading);
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .diagram-container {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .diagram-title {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .diagram-flow {
+      color: var(--accent-blue);
+      line-height: 1.6;
+    }
+
+    .formula-box {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--text-heading);
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .formula-box span.var {
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    .formula-box span.op {
+      color: var(--text-muted);
+      padding: 0 0.25rem;
+    }
+
+    ul {
+      margin-bottom: 1.25rem;
+      padding-left: 1.25rem;
+    }
+
+    li {
+      margin-bottom: 0.6rem;
+      font-size: 1.05rem;
+    }
+
+    .matrix-table {
+      width: 100%;
+      min-width: 520px;
+      text-align: left;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+
+    .matrix-table th {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-heading);
+    }
+
+    .matrix-table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .references {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .references h3 {
+      color: var(--text-heading);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .references ol {
+      padding-left: 1.2rem;
+    }
+
+    .references li {
+      margin-bottom: 0.75rem;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    .ref-authors {
+      color: var(--text-primary);
+    }
+
+    .ref-title {
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem 0.75rem;
+      }
+
+      h1 {
+        font-size: 1.65rem;
+      }
+
+      h2 {
+        font-size: 1.25rem;
+        margin-top: 2rem;
+      }
+
+      p,
+      li {
+        font-size: 0.98rem;
+        line-height: 1.6;
+      }
+
+      .diagram-container,
+      .formula-box {
+        padding: 1rem 0.75rem;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <article>
+    <header>
+      <h1>The Illusion of Unbounded Autonomy: Agency, Verification, and Software Understanding</h1>
+      <div class="meta">
+        <span>Software Architecture</span> &bull;
+        <span>Systems Engineering</span> &bull;
+        <span>6 min read</span>
+      </div>
+    </header>
+
+    <blockquote>
+      <p>AI makes code generation cheap. It does not make software understanding cheap.</p>
+    </blockquote>
+
+    <p>In modern software engineering, conversations about AI have moved far past inline code completion and toward
+      autonomous agents. Modern agents run with wide access: modifying files across workspace directories, running shell
+      commands, and invoking tools iteratively. The pitch sounds compelling: hand an agent a high-level task, and out
+      comes a pull request.</p>
+
+    <p>Evaluating these agentic workflows in real production environments reveals a straightforward architectural
+      reality:
+      <strong>As AI agency grows, generated changes naturally touch more components, expanding both the surface area and
+        complexity of verification.</strong>
+    </p>
+
+    <p>The real engineering tradeoff lies in balancing <strong>Agency, Change Surface, Blast Radius, and Verification
+        Overhead</strong>. Without verification capabilities that scale beside generation speed, unbounded autonomy
+      quickly pulls net ROI into negative territory.</p>
+
+    <h2>1. The Primary Chain: Agency &rarr; Change Surface &rarr; Blast Radius</h2>
+
+    <p>A pragmatic evaluation of agentic tools requires separating basic inline code completion from multi-step
+      autonomous
+      execution. Autonomy itself carries no inherent risk; <strong>unbounded scope and permissions create the
+        risk</strong>.
+      Risk directly tracks how much authority an agent holds over a codebase and its runtime environment.</p>
+
+    <div class="formula-box">
+      <span class="var">Agency &uarr;</span> <span class="op">&rarr;</span> <span class="var">Change Surface tends to
+        &uarr;</span>
+      <span class="op">&rarr;</span> <span class="var">Blast Radius depends on boundaries</span> <span
+        class="op">&rarr;</span> <span class="var">Verification Burden &uarr;</span>
+    </div>
+
+    <p>Granting an agent broad permissions across a production repository causes systemic impacts to scale in lockstep:
+    </p>
+
+    <div class="diagram-container">
+      <div class="diagram-title">Autonomy Level vs. Operational Risk Profile</div>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>Autonomy Level</th>
+            <th>Blast Radius</th>
+            <th>Verification Cost</th>
+            <th>Operational ROI Profile</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Scoped Completion</strong> (Inline / Single-File)</td>
+            <td style="color: var(--accent-green);">Localized</td>
+            <td style="color: var(--accent-green);">Low (Immediate Feedback)</td>
+            <td style="color: var(--accent-green); font-weight:bold;">High Positive</td>
+          </tr>
+          <tr>
+            <td><strong>Bounded Agent</strong> (Scaffold, Isolation, Tests)</td>
+            <td style="color: var(--accent-yellow);">Contained</td>
+            <td style="color: var(--accent-yellow);">Moderate (Automated Checks)</td>
+            <td style="color: var(--accent-yellow); font-weight:bold;">Positive (High Potential)</td>
+          </tr>
+          <tr>
+            <td><strong>Unbounded Agent</strong> (Core Auth, Multimodule DB)</td>
+            <td style="color: var(--accent-red);">Systemic</td>
+            <td style="color: var(--accent-red);">Extremely High (Manual Trace)</td>
+            <td style="color: var(--accent-red); font-weight:bold;">High Risk / Conditional Deficit</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <blockquote style="border-left-color: var(--accent-green);">
+      <p><strong>Core Architectural Principle:</strong> Agency should be proportional to the reversibility and blast
+        radius of the actions it can take.</p>
+    </blockquote>
+
+    <h2>2. The Asymmetry of Software Understanding</h2>
+
+    <p>Writing syntax rarely throttles software development. Mainline maintenance costs stem from building and holding
+      an
+      accurate <strong>mental model</strong> of system invariants, state mutations, and edge cases.</p>
+
+    <p>Autonomous agents reshape standard developer comprehension pathways in fundamental ways:</p>
+
+    <div class="diagram-container">
+      <div class="diagram-title">Comprehension Pathway Comparison</div>
+      <pre class="diagram-flow">Inline Completion:
+[Architect Intent] ➔ [Incremental Synthesis] ➔ [Inline Evaluation] ➔ [Sustained Comprehension]
+
+Unbounded Agent:
+[High-Level Prompt] ➔ [Agent Mutates Multiple Interdependent Files] ➔ [High-Cost Auditing & Reconstruction]</pre>
+    </div>
+
+    <p>Writing code manually builds understanding step by step. When an agent hands over a large multi-file diff, the
+      engineer must pivot to <strong>adversarial reverse-engineering</strong>: dissecting non-deterministic changes to
+      confirm
+      that authorization rules, error handling, and concurrency guarantees remain intact.</p>
+
+    <p>Empirical studies on AI development tools highlight these exact cognitive mechanics: developers often express
+      higher
+      confidence in AI-generated code even as security flaws increase<sup><a href="#ref-3">[3]</a></sup>.
+      Broader analysis across large codebases similarly points to higher short-term code churn alongside AI-assisted
+      workflows<sup><a href="#ref-4">[4]</a></sup>. Early generation tools laid the groundwork for these findings, but
+      the core structural takeaway applies directly to modern agents: <strong>generating code faster without
+        proportional verification weakens long-term architectural maintainability.</strong></p>
+
+    <h2>3. Specification&ndash;Verification Coupling</h2>
+
+    <p>A common tactic to catch agent errors involves asking the agent to write its own unit tests alongside
+      implementation
+      code. This setup contains a hidden structural defect:</p>
+
+    <blockquote style="border-left-color: var(--accent-yellow);">
+      <p><strong>Specification&ndash;Verification Coupling:</strong> When the same agent produces both the
+        implementation and its tests from a single prompt, any flaw in its interpretation of the spec propagates into
+        both outputs.</p>
+    </blockquote>
+
+    <p>This coupling leads to test suites that pass cleanly while underlying system logic breaks. The generated test
+      suite
+      simply reinforces the agent's internal assumptions rather than validating true system invariants.</p>
+
+    <p>Reliable verification requires decoupling validation completely from code generation. Dependable checks rely on
+      <strong>independent adversarial testing, property-based invariants, strict security analysis, and fuzzing
+        pipelines</strong>.
+    </p>
+
+    <h2>4. Managing the Net ROI Balance Sheet</h2>
+
+    <p>Determining whether agentic automation yields genuine engineering speed requires evaluating whole lifecycle costs
+      over raw generation output:</p>
+
+    <div class="formula-box">
+      <span class="var">Net Engineering Velocity</span> <span class="op">=</span> <span class="var">Generation
+        Velocity</span>
+      <span class="op">&minus;</span> <span class="var">Verification & Auditing Overhead</span> <span
+        class="op">&minus;</span>
+      <span class="var">Remediation Costs</span>
+    </div>
+
+    <p>Security analysis repeatedly confirms that AI-generated code introduces vulnerabilities when changes bypass
+      rigorous
+      review<sup><a href="#ref-1">[1]</a>, <a href="#ref-2">[2]</a></sup>. Industry security frameworks like
+      the OWASP Top 10 for
+      Large Language Model Applications specifically categorize <strong>Excessive Agency</strong>—granting agents
+      unchecked execution authority and broad permissions—as a primary attack surface<sup><a href="#ref-2">[2]</a></sup>
+    </p>
+
+    <p>In tightly constrained scenarios—such as rapid prototyping, disposable scripts, or isolated modules—verification
+      demands remain light. Under these conditions, agentic tools yield strong productivity gains.</p>
+
+    <p>The math shifts when agents carry broad write permissions across coupled production systems. Verification costs
+      skyrocket quickly. Once auditing and verification time eclipses the time saved during generation, nominal speed
+      gains convert into negative net velocity.</p>
+
+    <h2>Conclusion: Bounded Autonomy as Engineering Discipline</h2>
+
+    <p>Modern software architecture focuses on <strong>governing autonomy according to blast radius</strong> rather than
+      rejecting AI agents entirely.</p>
+
+    <p>Restricting unbounded agent access to critical systems represents standard operational risk management rather
+      than AI resistance. Capitalizing on AI's strengths means assigning autonomous agents to tasks where verification
+      remains simple, sandboxed, or mechanically enforced. For long-term production systems, engineers must enforce
+      explicit boundaries, limit authority, and keep human comprehension central to software design.</p>
+
+    <blockquote>
+      <p>AI makes code generation cheap. It does not make software understanding cheap. When agency outpaces
+        verification, productivity becomes technical debt.</p>
+    </blockquote>
+
+    <footer>
+      <div class="references">
+        <h3>References & Foundations</h3>
+        <ol>
+          <li id="ref-1">
+            <span class="ref-authors">Veracode Security Research.</span> (2026).
+            <span class="ref-title">2026 GenAI Code Security Report: Risk Metrics & Enterprise Code Trends</span>.
+            Veracode Research Reports.
+            URL: <a href="https://www.veracode.com/resources/analyst-reports/state-of-software-security-2026/"
+              target="_blank" rel="noopener">veracode.com/resources/analyst-reports/state-of-software-security-2026/</a>
+          </li>
+          <li id="ref-2">
+            <span class="ref-authors">OWASP Foundation.</span> (2025).
+            <span class="ref-title">OWASP Top 10 for Large Language Model Applications 2025</span>.
+            Open Web Application Security Project.
+            URL: <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank"
+              rel="noopener">owasp.org/www-project-top-10-for-large-language-model-applications/</a>
+          </li>
+          <li id="ref-3">
+            <span class="ref-authors">Perry, N., Srivastava, M., Kumar, D., & Boneh, D.</span> (2023).
+            <span class="ref-title">Do Users Write More Insecure Code with AI Assistants?</span>
+            Proceedings of the 2023 IEEE Symposium on Security and Privacy (S&P).
+            URL: <a href="https://arxiv.org/abs/2211.03622" target="_blank" rel="noopener">arxiv.org/abs/2211.03622</a>
+          </li>
+          <li id="ref-4">
+            <span class="ref-authors">Harding, W., & Kloster, M. (GitClear Team).</span> (2024).
+            <span class="ref-title">Coding on Copilot: Data Suggests Downward Pressure on Code Quality</span>.
+            GitClear Research Whitepaper.
+            URL: <a href="https://www.gitclear.com/coding_on_copilot_data_shows_ais_downward_pressure_on_code_quality"
+              target="_blank"
+              rel="noopener">www.gitclear.com/coding_on_copilot_data_shows_ais_downward_pressure_on_code_quality</a>
+          </li>
+        </ol>
+      </div>
+    </footer>
+  </article>
+
+</body>
+
+</html>
